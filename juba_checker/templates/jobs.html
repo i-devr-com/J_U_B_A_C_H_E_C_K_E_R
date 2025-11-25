@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Jobs - Juba Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .jobs-grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .job-card {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .job-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .job-info {
+            flex: 1;
+        }
+        
+        .job-id {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .job-meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .status-badge.running {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-badge.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .view-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+        
+        .view-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .no-jobs {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 All Processing Jobs</h1>
+        
+        {% if jobs %}
+            <div class="jobs-grid">
+                {% for job in jobs %}
+                    <div class="job-card">
+                        <div class="job-info">
+                            <div class="job-id">🔑 {{ job.job_id }}</div>
+                            <div class="job-meta">{{ job.domain_count }} domain(s) processed</div>
+                        </div>
+                        <div>
+                            <span class="status-badge {{ job.status }}">{{ job.status|upper }}</span>
+                            <a href="/results/{{ job.job_id }}" class="view-btn">View Results</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-jobs">
+                No jobs found. Start by uploading credential files!
+            </div>
+        {% endif %}
+        
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+</body>
+</html>
