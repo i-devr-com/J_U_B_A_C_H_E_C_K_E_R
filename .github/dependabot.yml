@@ -1,173 +1,136 @@
-
-# Dependabot configuration for Juba Checker
-# This file configures automated dependency updates for enhanced security
-
 version: 2
 updates:
-
-  # Track Python dependencies from requirements.txt
-  - package-ecosystem: "pip"
-    directory: "/"
+  - package-ecosystem: pip
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: weekly
+      day: monday
+      time: '09:00'
     open-pull-requests-limit: 5
     reviewers:
-      - ""  # Replace with actual team/username
+      - juba-team
     assignees:
-      - "hak193"  # Replace with actual team/username
+      - juba-team
     commit-message:
-      prefix: "deps"
-      include: "scope"
+      prefix: deps
+      include: scope
     labels:
-      - "dependencies"
-      - "security"
-      - "python"
+      - dependencies
+      - security
+      - python
     allow:
-      # Allow both direct and indirect dependencies
-      - dependency-type: "direct"
-      - dependency-type: "indirect"
+      - dependency-type: direct
+      - dependency-type: indirect
     ignore:
-      # Ignore major version updates for stability
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
-    milestone: "Security Updates"
-
-  # Track GitHub Actions for CI/CD security
-  - package-ecosystem: "github-actions"
-    directory: "/"
+      - dependency-name: '*'
+        update-types:
+          - 'version-update:semver-major'
+    milestone: Security Updates
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "10:00"
+      interval: weekly
+      day: monday
+      time: '10:00'
     open-pull-requests-limit: 3
     reviewers:
-      - "hak193"  # Replace with actual team/username
+      - juba-team
     assignees:
-      - ""  # Replace with actual team/username
+      - juba-team
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: ci
+      include: scope
     labels:
-      - "github-actions"
-      - "ci"
-      - "security"
-
-  # Track Docker dependencies if Docker is used
-  - package-ecosystem: "docker"
-    directory: "/"
+      - github-actions
+      - ci
+      - security
+  - package-ecosystem: docker
+    directory: /
     schedule:
-      interval: "monthly"
+      interval: monthly
     open-pull-requests-limit: 2
     reviewers:
-      - "juba-team"  # Replace with actual team/username
+      - juba-team
     commit-message:
-      prefix: "docker"
-      include: "scope"
+      prefix: docker
+      include: scope
     labels:
-      - "docker"
-      - "security"
-
-  # Track npm dependencies for web interface assets
-  - package-ecosystem: "npm"
-    directory: "/"
+      - docker
+      - security
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "wednesday"
-      time: "09:00"
+      interval: weekly
+      day: wednesday
+      time: '09:00'
     open-pull-requests-limit: 3
     reviewers:
-      - ""  # Replace with actual team/username
+      - juba-team
     commit-message:
-      prefix: "frontend"
-      include: "scope"
+      prefix: frontend
+      include: scope
     labels:
-      - "npm"
-      - "frontend"
-      - "security"
-    versioning-strategy: "increase"
+      - npm
+      - frontend
+      - security
+    versioning-strategy: increase
     allow:
-      - dependency-type: "direct"
-      - dependency-type: "indirect"
-
-# Security configuration for critical updates
+      - dependency-type: direct
+      - dependency-type: indirect
 security-updates:
-  # Enable security updates for all ecosystems
-  - package-ecosystem: "pip"
-    directory: "/"
+  - package-ecosystem: pip
+    directory: /
     open-pull-requests-limit: 10
-    # Auto-merge minor security updates
     auto-merge: true
-    # Require approval for major security updates
-    requirements-update-strategy: "widen"
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
+    requirements-update-strategy: widen
+  - package-ecosystem: github-actions
+    directory: /
     open-pull-requests-limit: 5
     auto-merge: true
-
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: docker
+    directory: /
     open-pull-requests-limit: 5
-    auto-merge: false  # Manual review for Docker updates
-
-# Group updates for better organization
+    auto-merge: false
 groups:
-  # Group Flask-related dependencies
   flask-dependencies:
     patterns:
-      - "flask*"
-      - "werkzeug*"
-      - "jinja2*"
-    applies-to: "version-updates"
+      - flask*
+      - werkzeug*
+      - jinja2*
+    applies-to: version-updates
     update-types:
-      - "minor"
-      - "patch"
-
-  # Group security-related dependencies
+      - minor
+      - patch
   security-dependencies:
     patterns:
-      - "urllib3*"
-      - "requests*"
-      - "certifi*"
-    applies-to: "version-updates"
+      - urllib3*
+      - requests*
+      - certifi*
+    applies-to: version-updates
     update-types:
-      - "minor"
-      - "patch"
-
-  # Group testing dependencies
+      - minor
+      - patch
   testing-dependencies:
     patterns:
-      - "pytest*"
-      - "coverage*"
-      - "black*"
-      - "flake8*"
-    applies-to: "version-updates"
+      - pytest*
+      - coverage*
+      - black*
+      - flake8*
+    applies-to: version-updates
     update-types:
-      - "minor"
-      - "patch"
-
-# Custom configuration for specific dependencies
- registries:
-  # Use PyPI for Python packages
+      - minor
+      - patch
   pip:
-    type: "python-index"
-    url: "https://pypi.org/simple"
+    type: python-index
+    url: 'https://pypi.org/simple'
     replaces-base: true
-
-  # Use npm registry for JavaScript packages
   npm:
-    type: "npm-registry"
-    url: "https://registry.npmjs.org"
+    type: npm-registry
+    url: 'https://registry.npmjs.org'
     replaces-base: true
-
-# Notification settings
 notify:
-  # Notify on PR creation
-  on: "pull_request_created"
-  # Notify teams/individuals
+  'on': pull_request_created
   teams:
-    - "juba-team/security"
+    - juba-team/security
   individuals:
-    - "security-lead"
+    - security-lead
